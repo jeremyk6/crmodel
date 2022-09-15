@@ -6,8 +6,8 @@ import tempfile
 import osmnx as ox
 import crseg.utils as u
 import crseg.segmentation as cs
-import crdesc.description as cm
-import crdesc.config as cg
+import crmodel.crmodel as cm
+import crmodel.config as cg
 
 #
 # Configuration
