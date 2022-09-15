@@ -6,7 +6,7 @@ import tempfile
 import osmnx as ox
 import crseg.utils as u
 import crseg.segmentation as cs
-import crdesc.description as cd
+import crdesc.description as cm
 import crdesc.config as cg
 
 #
@@ -66,22 +66,20 @@ seg = cs.Segmentation(undirected_G, C0 = 2, C1 = 2, C2 = 4, max_cycle_elements =
 seg.process()
 seg.to_json("data/intersection.json", longitude, latitude)
 
-desc = cd.Description()
-desc.computeModel(G, "data/intersection.json")
-description = desc.generateDescription()
-
-print(description["text"])
+model = cm.CrModel()
+model.computeModel(G, "data/intersection.json")
 
 # File output
 if args.output:
     filename = args.output[0]
     extension = filename.split('.')[-1].lower()
     with open("output/"+args.output[0], "w") as f:
-        content = description["text"]
         if extension == "geojson":
-            content = desc.getGeoJSON(description["structure"])
-        if extension == "json":
-            content = desc.descriptionToJSON(description["structure"])
+            content = model.getGeoJSON()
+        elif extension == "json":
+            content = model.getJSON()
+        else:
+            content = model.getJSON
         f.write(content)
         f.close()
 

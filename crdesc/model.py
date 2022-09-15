@@ -64,8 +64,8 @@ class JunctionDecorator(AbstractJunction):
 # Crosswalk decorator
 class Crosswalk(JunctionDecorator):
 
-    def __init__(self, decorated_junction, cw_tactile_paving):
-        super().__init__(decorated_junction, {'cw_tactile_paving' : cw_tactile_paving, 'pedestrian_nodes' : []})
+    def __init__(self, decorated_junction, cw_tactile_paving, pedestrian_nodes = []):
+        super().__init__(decorated_junction, {'cw_tactile_paving' : cw_tactile_paving, 'pedestrian_nodes' : pedestrian_nodes})
 
 # Pedestrian traffic light decorator
 class Pedestrian_traffic_light(JunctionDecorator):
@@ -130,14 +130,13 @@ class Way():
 
 class Branch():
 
-    def __init__(self, id, angle, direction_name, street_name, ways : Way):
-        self.id = id
-        self.number = None
+    def __init__(self, angle, direction_name, street_name, ways : Way, number = None, crossing = None):
+        self.number = number
         self.angle = angle
         self.direction_name = direction_name
         self.street_name = street_name
         self.ways = ways
-        self.crossing = None
+        self.crossing = crossing
 
     def set_crossing(self, crossing):
         self.crossing = crossing
@@ -162,7 +161,7 @@ def createCrosswalk(junction, node):
     cw_tactile_paving = "no"
     if "tactile_paving" in node:
         cw_tactile_paving = node["tactile_paving"]
-    junction = Crosswalk(junction, cw_tactile_paving)
+    junction = Crosswalk(junction, cw_tactile_paving, [])
     # Does it have a traffic light ?
     if node["crossing"] == "traffic_signals":
         ptl_sound = "no"

@@ -1,7 +1,5 @@
-osmnx==1.2.1
+osmnx>=1.2.1
 scipy
 argparse
 geojson
-toolz
 crossroads-segmentation>=0.1.10
-pyrealb
