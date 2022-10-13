@@ -37,12 +37,12 @@ class CrModel:
         #crossroad edges creation
         crossroad_edges = {}
         for edge in seg_crossroad.edges_by_nodes:
-            edge_id = "%s%s"%(edge[0],edge[1])
-            crossroad_edges[edge_id] = createWay(edge, G)
+            edge_id = "%s;%s"%(edge[0],edge[1])
+            crossroad_edges[edge_id] = createWay(edge_id, edge, G)
         for branch in seg_crossroad.branches:
             for edge in branch.edges_by_nodes:
-                edge_id = "%s%s"%(edge[0],edge[1])
-                crossroad_edges[edge_id] = createWay(edge, G, seg_crossroad.border_nodes)    
+                edge_id = "%s;%s"%(edge[0],edge[1])
+                crossroad_edges[edge_id] = createWay(edge_id, edge, G, seg_crossroad.border_nodes)    
 
         # Get border path of the intersection, then keep only the border nodes (the external nodes of the branches)
         border_path = getBorderPath(G, crossroad_inner_nodes, crossroad_border_nodes, crossroad_external_nodes, crossroad_edges)
@@ -101,13 +101,13 @@ class CrModel:
                     n1 = sidewalk_path[j]
                     n2 = sidewalk_path[j+1]
                     way = None
-                    ids = ["%s%s"%(n1,n2), "%s%s"%(n2,n1)]
+                    ids = ["%s;%s"%(n1,n2), "%s;%s"%(n2,n1)]
                     for id in ids:
                         if id in crossroad_edges:
                             way = crossroad_edges[id]
                     # if the way does not exist we create it (may not happen but sometimes it is)
                     if not way:
-                        way = createWay([n1,n2], G)
+                        way = createWay("%s;%s"%(n1, n2), [n1,n2], G)
                         crossroad_edges[id] = way
                     # if the sidewalk goes in the same direction as the way, it's the left sidewalk. Otherwise it's the right one.
                     if way.junctions[0].id == n1:
@@ -135,7 +135,7 @@ class CrModel:
                     n1 = island_path[j]
                     n2 = island_path[j+1]
                     way = None
-                    ids = ["%s%s"%(n1,n2), "%s%s"%(n2,n1)]
+                    ids = ["%s;%s"%(n1,n2), "%s;%s"%(n2,n1)]
                     for id in ids:
                         if id in crossroad_edges:
                             way = crossroad_edges[id]

@@ -32,7 +32,7 @@ def cleanGraph(G, crossroad_edges):
     clean_G = G.copy()
     to_remove = []
     for (n1, n2, edge) in G.edges(data=True):
-        if "%s%s"%(n1,n2) not in crossroad_edges.keys() and "%s%s"%(n2,n1) not in crossroad_edges.keys():
+        if "%s;%s"%(n1,n2) not in crossroad_edges.keys() and "%s;%s"%(n2,n1) not in crossroad_edges.keys():
             to_remove.append([n1,n2])
     clean_G.remove_edges_from(to_remove)
     clean_G = ox.utils_graph.remove_isolated_nodes(clean_G)
@@ -77,7 +77,7 @@ def getBranchesEdges(border_path, seg_crossroad_branches, external_nodes):
     branch_edges = []
     for branch in seg_crossroad_branches:
         for edge in branch.edges_by_nodes:
-            branch_edges.append({'branch_id' : branch.id, 'edge_id' : "%s%s"%(edge[0],edge[1]), 'order' : None})
+            branch_edges.append({'branch_id' : branch.id, 'edge_id' : "%s;%s"%(edge[0],edge[1]), 'order' : None})
     
     # How it works : 
     # Follow the border path, check if the edge (current node + next node) is part of a branch. If yes, ordering it starting from 0.
@@ -91,7 +91,7 @@ def getBranchesEdges(border_path, seg_crossroad_branches, external_nodes):
         if border_path[i] in external_nodes:
             for edge in branch_edges:
                 next_i = i-1 if i == len(border_path)-1 else i+1
-                if edge["edge_id"] in ["%s%s"%(border_path[i], border_path[next_i]), "%s%s"%(border_path[next_i], border_path[i])] and edge["order"] is None:
+                if edge["edge_id"] in ["%s;%s"%(border_path[i], border_path[next_i]), "%s;%s"%(border_path[next_i], border_path[i])] and edge["order"] is None:
                         if first_branch is None:
                             first_branch = edge["branch_id"]
                         if flag == False and edge["branch_id"] != first_branch:

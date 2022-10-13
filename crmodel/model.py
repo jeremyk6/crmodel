@@ -224,7 +224,7 @@ def createUndirectedLanes(edge, way, way_out):
         if edge["highway"]=="service" and "psv" in edge and edge["psv"]=="yes": type = "Bus"
         createLane(type, way, way_out)
 
-def createWay(edge, G, border_nodes=[]):
+def createWay(id, edge, G, border_nodes=[]):
     n1 = edge[0]
     n2 = edge[1]
 
@@ -246,7 +246,7 @@ def createWay(edge, G, border_nodes=[]):
     # if an edge does not have a name, we set the name to None
     if not "name" in edge:
         edge["name"] = None
-    way = Way(edge["osmid"], edge["name"], junctions, channels = [], sidewalks=[None, None], islands=[None, None])
+    way = Way(id, edge["name"], junctions, channels = [], sidewalks=[None, None], islands=[None, None])
 
     # if n2 is a border node, it means the way is drawn as outgoing from the direction.
     way_out = None
