@@ -243,7 +243,7 @@ class CrModel:
             way = self.crossroad.ways[way_id]
             way_data = {
                 "name" : way.name,
-                "junctions" : [junction.id for junction in way.junctions],
+                "junctions" : [str(junction.id) for junction in way.junctions],
                 "channels" : None,
                 "sidewalks" : None,
                 "islands" : None
@@ -262,7 +262,7 @@ class CrModel:
             sidewalks_ids = []
             for sidewalk in way.sidewalks:
                 if sidewalk:
-                    sidewalks_ids.append(sidewalk.id)
+                    sidewalks_ids.append(str(sidewalk.id))
                     data["pedestrian_nodes"][sidewalk.id] = { "type" : "Sidewalk" }
                 else:
                     sidewalks_ids.append(None)
@@ -272,7 +272,7 @@ class CrModel:
             islands_ids = []
             for island in way.islands:
                 if island:
-                    islands_ids.append(island.id)
+                    islands_ids.append(str(island.id))
                     data["pedestrian_nodes"][island.id] = { "type" : "Island" }
                 else:
                     islands_ids.append(None)
@@ -299,7 +299,7 @@ class CrModel:
                 # Pedestrian nodes handling
                 junction_data["pedestrian_nodes"] = []
                 for pedestrian_node in junction.pedestrian_nodes:
-                    junction_data["pedestrian_nodes"].append(pedestrian_node.id)
+                    junction_data["pedestrian_nodes"].append(str(pedestrian_node.id))
                     data["pedestrian_nodes"][pedestrian_node.id] = { "type" : pedestrian_node.__class__.__name__ }
 
             # Attributes : ptl_sound
@@ -324,7 +324,7 @@ class CrModel:
                 "street_name" : branch.street_name, 
                 "ways" : [way.id for way in branch.ways],
                 "crossing" : {
-                    "crosswalks" : [crosswalk.id for crosswalk in branch.crossing.crosswalks]
+                    "crosswalks" : [str(crosswalk.id) for crosswalk in branch.crossing.crosswalks]
                 }
             }
 
