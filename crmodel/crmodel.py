@@ -217,7 +217,7 @@ class CrModel:
         #
 
         self.crossroad = Intersection(None, branches, crossroad_center)
-        self.crossroad.junctions = {**crossroad_inner_nodes, **crossroad_border_nodes}
+        self.crossroad.junctions = {**crossroad_inner_nodes, **crossroad_border_nodes, **crossroad_external_nodes}
         self.crossroad.ways = crossroad_edges
         self.crossroad.crossings = crossings
 
