@@ -321,7 +321,7 @@ class CrModel:
                 "street_name" : branch.street_name, 
                 "ways" : [way.id for way in branch.ways],
                 "crossing" : {
-                    "crosswalks" : [str(crosswalk.id) for crosswalk in branch.crossing.crosswalks]
+                    "crosswalks" : [str(crosswalk.id) for crosswalk in branch.crossing.crosswalks] if branch.crossing is not None else None
                 }
             }
 
