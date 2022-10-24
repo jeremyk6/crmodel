@@ -216,10 +216,7 @@ class CrModel:
         # Crossroad creation
         #
 
-        self.crossroad = Intersection(None, branches, crossroad_center)
-        self.crossroad.junctions = {**crossroad_inner_nodes, **crossroad_border_nodes, **crossroad_external_nodes}
-        self.crossroad.ways = crossroad_edges
-        self.crossroad.crossings = crossings
+        self.crossroad = Intersection(None, branches, crossroad_edges, {**crossroad_inner_nodes, **crossroad_border_nodes, **crossroad_external_nodes}, crossings, crossroad_center)
 
     #
     # Generate a JSON that bind generated descriptions to OSM nodes

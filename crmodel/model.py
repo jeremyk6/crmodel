@@ -147,9 +147,12 @@ class Branch():
 
 class Intersection():
 
-    def __init__(self, type, branches : Branch, center):
+    def __init__(self, type, branches : Branch, ways : Way, junctions : Junction, crossings : Crossing, center):
         self.type = type
         self.branches = branches
+        self.ways = ways
+        self.junctions = junctions
+        self.crossings = crossings
         self.center = center
 
 #
