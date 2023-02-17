@@ -345,13 +345,16 @@ class CrModel:
                 n1 = way.junctions[0]
                 n2 = way.junctions[1]
                 features.append(Feature(geometry=LineString([(n1.x, n1.y), (n2.x, n2.y)]), properties={
-                    "id" : "%s;%s"%(n1.id, n2.id),
+                    "id" : str(branch.number),
+                    "osm_node_ids" : [n1.id, n2.id],
+                    "osm_way_id" : way.osmid[0],
                     "type" : "branch",
-                    "name" : "branch n°%s | %s"%(branch.number,way.name),
-                    "left_sidewalk" : way.sidewalks[0].id if way.sidewalks[0] else "",
-                    "right_sidewalk" : way.sidewalks[1].id if way.sidewalks[1] else "",
-                    "left_island" : way.islands[0].id if way.islands[0] else "",
-                    "right_island" : way.islands[1].id if way.islands[1] else ""
+                    "name" : way.name,
+                    "lanes" : [{"type" : channel.__class__.__name__, "direction" : channel.direction} for channel in way.channels],
+                    "left_sidewalk" : way.sidewalks[0].id if way.sidewalks[0] else None,
+                    "right_sidewalk" : way.sidewalks[1].id if way.sidewalks[1] else None,
+                    "left_island" : way.islands[0].id if way.islands[0] else None,
+                    "right_island" : way.islands[1].id if way.islands[1] else None
                 }))
                 branches_ways.append(way)
         
@@ -361,13 +364,16 @@ class CrModel:
                 n1 = way.junctions[0]
                 n2 = way.junctions[1]
                 features.append(Feature(geometry=LineString([(n1.x, n1.y), (n2.x, n2.y)]), properties={
-                    "id" : "%s;%s"%(n1.id, n2.id),
+                    "id" : str(way.id),
+                    "osm_node_ids" : [n1.id, n2.id],
+                    "osm_way_id" : way.osmid[0],
                     "type" : "way",
                     "name" : way.name,
-                    "left_sidewalk" : way.sidewalks[0].id if way.sidewalks[0] else "",
-                    "right_sidewalk" : way.sidewalks[1].id if way.sidewalks[1] else "",
-                    "left_island" : way.islands[0].id if way.islands[0] else "",
-                    "right_island" : way.islands[1].id if way.islands[1] else ""
+                    "lanes" : [{"type" : channel.__class__.__name__, "direction" : channel.direction} for channel in way.channels],
+                    "left_sidewalk" : way.sidewalks[0].id if way.sidewalks[0] else None,
+                    "right_sidewalk" : way.sidewalks[1].id if way.sidewalks[1] else None,
+                    "left_island" : way.islands[0].id if way.islands[0] else None,
+                    "right_island" : way.islands[1].id if way.islands[1] else None
                 }))
 
         # Single crosswalks
@@ -377,12 +383,17 @@ class CrModel:
                 crosswalks.append(junction)
         for crosswalk in crosswalks:
             features.append(Feature(geometry=Point([crosswalk.x, crosswalk.y]), properties={
-                "id" : crosswalk.id,
+                "id" : str(crosswalk.id),
+                "osm_node_id" : crosswalk.id,
                 "type" : "crosswalk",
+                "tactile_paving" : crosswalk.cw_tactile_paving,
+                "pedestrian_traffic_light" : "yes" if "Pedestrian_traffic_light" in crosswalk.type else "no",
+                "pedestrian_traffic_light:sound" : crosswalk.ptl_sound if "Pedestrian_traffic_light" in crosswalk.type else "unknown"
             }))
 
         # Crossings 
-        for crossing in [branch.crossing for branch in self.crossroad.branches]:
+        for branch in self.crossroad.branches:
+            crossing = branch.crossing
             if crossing is None:
                 continue
             crosswalks = crossing.crosswalks
@@ -395,8 +406,10 @@ class CrModel:
                 id = crosswalks[0].id
                 geom = Point([crosswalks[0].x, crosswalks[0].y])
             features.append(Feature(geometry=geom, properties={
-                "id" : id,
+                "id" : str(id),
+                "osm_node_ids" : [crosswalk.id for crosswalk in crosswalks],
                 "type" : "crossing",
+                "branch": branch.number
             }))
 
         return(dumps(FeatureCollection(features)))

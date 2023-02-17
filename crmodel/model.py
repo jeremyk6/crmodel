@@ -116,8 +116,9 @@ class Bicycle(Channel):
 
 class Way():
 
-    def __init__(self, id, name, junctions : Junction, channels : Channel, sidewalks : Sidewalk, islands : Island):
+    def __init__(self, id, osmid, name, junctions : Junction, channels : Channel, sidewalks : Sidewalk, islands : Island):
         self.id = id
+        self.osmid = osmid,
         self.name = name
         self.junctions = junctions
         self.channels = channels
@@ -161,16 +162,16 @@ class Intersection():
 
 def createCrosswalk(junction, node):
     # Does it have a tactile paving ?
-    cw_tactile_paving = "no"
+    cw_tactile_paving = "unknown"
     if "tactile_paving" in node:
         cw_tactile_paving = node["tactile_paving"]
     junction = Crosswalk(junction, cw_tactile_paving, [])
     # Does it have a traffic light ?
     if node["crossing"] == "traffic_signals":
-        ptl_sound = "no"
+        ptl_sound = "unknown"
         # Does it have sound ?
-        if "traffic_signals:sound" in node and node["traffic_signals:sound"] == "yes":
-            ptl_sound = "yes"
+        if "traffic_signals:sound" in node:
+            ptl_sound = node["traffic_signals:sound"]
         junction = Pedestrian_traffic_light(junction, ptl_sound)
     return junction
 
@@ -249,7 +250,7 @@ def createWay(id, edge, G, border_nodes=[]):
     # if an edge does not have a name, we set the name to None
     if not "name" in edge:
         edge["name"] = None
-    way = Way(id, edge["name"], junctions, channels = [], sidewalks=[None, None], islands=[None, None])
+    way = Way(id, edge["osmid"], edge["name"], junctions, channels = [], sidewalks=[None, None], islands=[None, None])
 
     # if n2 is a border node, it means the way is drawn as outgoing from the direction.
     way_out = None
