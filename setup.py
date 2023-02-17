@@ -14,7 +14,7 @@ with open('requirements.txt') as f:
 # This call to setup() does all the work
 setup(
     name="crmodel",
-    version="0.3.2",
+    version="0.4",
     description="crmodel is a python package that produces the crossroadsdesriber model from OpenStreetMap. See doi.org/10.5194/agile-giss-3-40-2022 for further informations.",
     long_description=README,
     long_description_content_type="text/markdown",
