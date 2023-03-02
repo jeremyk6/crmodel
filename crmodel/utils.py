@@ -151,6 +151,13 @@ def getSidewalks(border_path, branches, external_nodes):
         sidewalk_nodes += nodes
         branch_nodes.append(nodes)
 
+    border_path.pop()
+    i = 0
+    for i in range(len(border_path)):
+        if(border_path[i] == sidewalk_nodes[0]): break
+    border_path = border_path[i:] + border_path[:i]
+    border_path.append(border_path[0])
+
     sidewalks = []
     sidewalk = []      
     for node in border_path:
