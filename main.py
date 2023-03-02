@@ -48,10 +48,10 @@ xmlfile = None
 if args.file :
     if args.by_coordinates:
         xmlfile = args.file[0]
-        G = ox.graph_from_xml(args.file[0], simplify=False)
+        G = ox.graph_from_xml(args.file[0], simplify=False, retain_all=True)
     else :
         print("You need to give the coordinate of the main crossroad to proceed.")
-        exit
+        exit()
 else:
     G = u.Util.get_osm_data(latitude, longitude, 150, args.overpass, cg.way_tags_to_keep, cg.node_tags_to_keep, tempfile.NamedTemporaryFile(mode='w', delete=False, suffix=".xml", dir="cache"))
 
