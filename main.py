@@ -15,6 +15,10 @@ import crmodel.config as cg
 
 # configure arg parser
 parser = argparse.ArgumentParser(description="Build a basic description of the crossroad located at the requested coordinate.")
+parser.add_argument('--c0', nargs=1, help='C0 parameter for the segmentation.', type=float, default=[2])
+parser.add_argument('--c1', nargs=1, help='C1 parameter for the segmentation.', type=float, default=[2])
+parser.add_argument('--c2', nargs=1, help='C2 parameter for the segmentation.', type=float, default=[4])
+parser.add_argument('--max-cycle-elements', nargs=1, help='Max cycle elements for the segmentation.', type=int, default=[10])
 parser.add_argument('-c', '--by-coordinates', nargs=2, help='Load input from OSM using the given latitude', type=float)
 parser.add_argument('-f', '--file', nargs=1, help='Load .osm file instead of downloading data', type=str)
 parser.add_argument('--overpass', help='Use Overpass to download data instead of the OSM api', action='store_true')
@@ -62,7 +66,7 @@ G = cs.Segmentation.prepare_network(G)
 # build an undirected version of the graph
 undirected_G = ox.utils_graph.get_undirected(G)
 # segment it using topology and semantic
-seg = cs.Segmentation(undirected_G, C0 = 2, C1 = 2, C2 = 4, max_cycle_elements = 10)
+seg = cs.Segmentation(undirected_G, C0 = args.c0[0], C1 = args.c1[0], C2 = args.c2[0], max_cycle_elements = args.max_cycle_elements[0])
 seg.process()
 seg.to_json("data/intersection.json", longitude, latitude)
 
