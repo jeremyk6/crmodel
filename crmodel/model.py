@@ -191,7 +191,8 @@ def createJunction(node_id, node):
             
         # is it a crosswalk ?
         if "crossing" in node and node["crossing"] != "no":
-            junction = createCrosswalk(junction, node)
+            if "foot" not in node or node["foot"] != "no":
+                junction = createCrosswalk(junction, node)
 
         # is it a traffic light ?
         if "traffic_signals" in node:

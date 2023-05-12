@@ -40,6 +40,7 @@ node_tags_to_keep = [
     # crosswalk informations
     'crossing',
     'tactile_paving',
+    'foot',
     # traffic signals informations
     'traffic_signals',
     'traffic_signals:direction',
