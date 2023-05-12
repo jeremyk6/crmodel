@@ -346,15 +346,15 @@ class CrModel:
                 n2 = way.junctions[1]
                 features.append(Feature(geometry=LineString([(n1.x, n1.y), (n2.x, n2.y)]), properties={
                     "id" : str(branch.number),
-                    "osm_node_ids" : [n1.id, n2.id],
-                    "osm_way_id" : way.osmid[0],
+                    "osm_node_ids" : [str(n1.id), str(n2.id)],
+                    "osm_way_id" : str(way.osmid[0]),
                     "type" : "branch",
                     "name" : way.name,
                     "lanes" : [{"type" : channel.__class__.__name__, "direction" : channel.direction} for channel in way.channels],
-                    "left_sidewalk" : way.sidewalks[0].id if way.sidewalks[0] else None,
-                    "right_sidewalk" : way.sidewalks[1].id if way.sidewalks[1] else None,
-                    "left_island" : way.islands[0].id if way.islands[0] else None,
-                    "right_island" : way.islands[1].id if way.islands[1] else None
+                    "left_sidewalk" : str(way.sidewalks[0].id) if way.sidewalks[0] else None,
+                    "right_sidewalk" : str(way.sidewalks[1].id) if way.sidewalks[1] else None,
+                    "left_island" : str(way.islands[0].id) if way.islands[0] else None,
+                    "right_island" : str(way.islands[1].id) if way.islands[1] else None
                 }))
                 branches_ways.append(way)
         
@@ -365,15 +365,15 @@ class CrModel:
                 n2 = way.junctions[1]
                 features.append(Feature(geometry=LineString([(n1.x, n1.y), (n2.x, n2.y)]), properties={
                     "id" : str(way.id),
-                    "osm_node_ids" : [n1.id, n2.id],
-                    "osm_way_id" : way.osmid[0],
+                    "osm_node_ids" : [str(n1.id), str(n2.id)],
+                    "osm_way_id" : str(way.osmid[0]),
                     "type" : "way",
                     "name" : way.name,
                     "lanes" : [{"type" : channel.__class__.__name__, "direction" : channel.direction} for channel in way.channels],
-                    "left_sidewalk" : way.sidewalks[0].id if way.sidewalks[0] else None,
-                    "right_sidewalk" : way.sidewalks[1].id if way.sidewalks[1] else None,
-                    "left_island" : way.islands[0].id if way.islands[0] else None,
-                    "right_island" : way.islands[1].id if way.islands[1] else None
+                    "left_sidewalk" : str(way.sidewalks[0].id) if way.sidewalks[0] else None,
+                    "right_sidewalk" : str(way.sidewalks[1].id) if way.sidewalks[1] else None,
+                    "left_island" : str(way.islands[0].id) if way.islands[0] else None,
+                    "right_island" : str(way.islands[1].id) if way.islands[1] else None
                 }))
 
         # Single crosswalks
@@ -384,7 +384,7 @@ class CrModel:
         for crosswalk in crosswalks:
             features.append(Feature(geometry=Point([crosswalk.x, crosswalk.y]), properties={
                 "id" : str(crosswalk.id),
-                "osm_node_id" : crosswalk.id,
+                "osm_node_id" : str(crosswalk.id),
                 "type" : "crosswalk",
                 "tactile_paving" : crosswalk.cw_tactile_paving,
                 "pedestrian_traffic_light" : "yes" if "Pedestrian_traffic_light" in crosswalk.type else "no",
@@ -403,11 +403,11 @@ class CrModel:
                 id = ";".join(map(str,[crosswalks[i].id for i in range(len(crosswalks))]))
                 geom = LineString([(crosswalks[i].x, crosswalks[i].y) for i in range(len(crosswalks))])
             else:
-                id = crosswalks[0].id
+                id = str(crosswalks[0].id)
                 geom = Point([crosswalks[0].x, crosswalks[0].y])
             features.append(Feature(geometry=geom, properties={
                 "id" : str(id),
-                "osm_node_ids" : [crosswalk.id for crosswalk in crosswalks],
+                "osm_node_ids" : [str(crosswalk.id) for crosswalk in crosswalks],
                 "type" : "crossing",
                 "branch": branch.number
             }))
