@@ -167,7 +167,7 @@ def createCrosswalk(junction, node):
         cw_tactile_paving = node["tactile_paving"]
     junction = Crosswalk(junction, cw_tactile_paving, [])
     # Does it have a traffic light ?
-    if node["crossing"] == "traffic_signals":
+    if "crossing" in node and node["crossing"] == "traffic_signals":
         ptl_sound = "unknown"
         # Does it have sound ?
         if "traffic_signals:sound" in node:
@@ -190,7 +190,7 @@ def createJunction(node_id, node):
         junction = Junction(node_id, node["x"], node["y"])
             
         # is it a crosswalk ?
-        if "crossing" in node and node["crossing"] != "no":
+        if ("crossing" in node and node["crossing"] != "no") or ("highway" in node and node["highway"] == "crossing"):
             if "foot" not in node or node["foot"] != "no":
                 junction = createCrosswalk(junction, node)
 
