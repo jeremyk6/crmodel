@@ -1,6 +1,6 @@
 # crmodel
 
-**crmodel** is a python package that produces the crossroadsdesriber model from an OpenStreetMap intersection. See [this publication](doi.org/10.5194/agile-giss-3-40-2022) for further informations.
+**crmodel** is a python package that produces the crossroadsdesriber model from an OpenStreetMap intersection. See [this publication](https://doi.org/10.5194/agile-giss-3-40-2022) for further informations.
 
 This tool was developed and tested under Ubuntu 20.04.
 
