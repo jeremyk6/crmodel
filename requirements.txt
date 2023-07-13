@@ -1,4 +1,4 @@
-crossroads_segmentation==0.1.19
+crossroads_segmentation>=0.1.22
 geojson==3.0.1
 networkx==3.0
 osmnx==1.3.0
