@@ -132,6 +132,8 @@ def getIslands(G, branches, crossroad_border_nodes):
             neighbors = list(set(tG.neighbors(to_handle)).intersection(cycle))
             if len(neighbors) > 0:
                 to_handle = neighbors[0]
+            else:
+                break
         faces.append(ordered)
 
     return faces
