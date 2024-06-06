@@ -25,6 +25,7 @@ class CrModel:
         crossroad_inner_nodes = {}
         crossroad_border_nodes = {}
         crossroad_external_nodes = {}
+        other_nodes = {}
         for node_id in seg_crossroad.inner_nodes:
             crossroad_inner_nodes[node_id] = createJunction(node_id, G.nodes[node_id])
         for node_id in seg_crossroad.border_nodes:
@@ -33,6 +34,10 @@ class CrModel:
             for node_id in branch.border_nodes:
                 if node_id not in (list(crossroad_inner_nodes.keys()) + list(crossroad_border_nodes.keys())):
                     crossroad_external_nodes[node_id] = createJunction(node_id, G.nodes[node_id])
+        for edge in seg_crossroad.edges_by_nodes:
+            for node_id in edge:
+                if node_id not in (list(crossroad_inner_nodes.keys()) + list(crossroad_border_nodes.keys()) + list(crossroad_external_nodes.keys())):
+                    other_nodes[node_id] = createJunction(node_id, G.nodes[node_id])
 
         #crossroad edges creation
         crossroad_edges = {}
@@ -216,7 +221,7 @@ class CrModel:
         # Crossroad creation
         #
 
-        self.crossroad = Intersection(None, branches, crossroad_edges, {**crossroad_inner_nodes, **crossroad_border_nodes, **crossroad_external_nodes}, crossings, crossroad_center)
+        self.crossroad = Intersection(None, branches, crossroad_edges, {**crossroad_inner_nodes, **crossroad_border_nodes, **crossroad_external_nodes, **other_nodes}, crossings, crossroad_center)
 
     #
     # Generate a JSON that bind generated descriptions to OSM nodes
