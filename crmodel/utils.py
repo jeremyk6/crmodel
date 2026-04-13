@@ -35,13 +35,12 @@ def cleanGraph(G, crossroad_edges):
         if "%s;%s"%(n1,n2) not in crossroad_edges.keys() and "%s;%s"%(n2,n1) not in crossroad_edges.keys():
             to_remove.append([n1,n2])
     clean_G.remove_edges_from(to_remove)
-    clean_G = ox.utils_graph.remove_isolated_nodes(clean_G)
     return clean_G 
 
 # Get the cycle path that represents the border of the crossroads
 def getBorderPath(G, crossroad_inner_nodes, crossroad_border_nodes, crossroad_external_nodes, crossroad_edges):
 
-    G = ox.utils_graph.get_undirected(G)
+    G = ox.convert.to_undirected(G)
 
     n1 = list(crossroad_external_nodes.keys())[0]
     path = [n1]

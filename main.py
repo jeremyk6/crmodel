@@ -64,7 +64,7 @@ else:
 # prepae network by removing unwanted ways
 G = cs.Segmentation.prepare_network(G)
 # build an undirected version of the graph
-undirected_G = ox.utils_graph.get_undirected(G)
+undirected_G = ox.convert.to_undirected(G)
 # segment it using topology and semantic
 seg = cs.Segmentation(undirected_G, C0 = args.c0[0], C1 = args.c1[0], C2 = args.c2[0], max_cycle_elements = args.max_cycle_elements[0])
 seg.process()
