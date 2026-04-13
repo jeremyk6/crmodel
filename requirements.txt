@@ -1,7 +1,5 @@
 crossroads-segmentation==0.1.28
-networkx==3.6.1
 osmnx==2.1.0
-pandas==3.0.2
 scipy==1.17.1
 setuptools==82.0.1
 geojson==3.2.0
